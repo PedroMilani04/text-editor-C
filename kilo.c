@@ -18,7 +18,7 @@
 
 
 /*** defines ***/
-#define KILO_VERSION "0.0.1"
+#define KILO_VERSION "1.0.0"
 #define KILO_TAB_STOP 8
 #define KILO_QUIT_TIMES 3
 
@@ -590,7 +590,7 @@ void editorSave() {
         close(fd);
         free(buf);
         E.dirty = 0;
-        editorSetStatusMessage("%d bytes written to disk", len);
+        editorSetStatusMessage("%d bytes escritos em disco", len);
         return;
       }
     }
@@ -717,7 +717,7 @@ void editorDrawRows(struct abuf *ab) {
       if (E.numrows == 0 && y == E.screenrows / 3) {
         char welcome[80];
         int welcomelen = snprintf(welcome, sizeof(welcome),
-          "Kilo editor -- version %s", KILO_VERSION);
+          "Editor de Texto ED -- versão %s", KILO_VERSION);
         if (welcomelen > E.screencols) welcomelen = E.screencols;
         int padding = (E.screencols - welcomelen) / 2;
         if (padding) {
@@ -775,11 +775,11 @@ void editorDrawRows(struct abuf *ab) {
 void editorDrawStatusBar(struct abuf *ab) {
   abAppend(ab, "\x1b[7m", 4);
   char status[80], rstatus[80];
-  int len = snprintf(status, sizeof(status), "%.20s - %d lines %s",
+  int len = snprintf(status, sizeof(status), "%.20s - %d linhas %s",
     E.filename ? E.filename : "[No Name]", E.numrows,
     E.dirty ? "(modified)" : "");
   int rlen = snprintf(rstatus, sizeof(rstatus), "%s | %d/%d",
-    E.syntax ? E.syntax->filetype : "no ft", E.cy + 1, E.numrows);
+    E.syntax ? E.syntax->filetype : "Linha", E.cy + 1, E.numrows);
   if (len > E.screencols) len = E.screencols;
   abAppend(ab, status, len);
   while (len < E.screencols) {
@@ -918,17 +918,6 @@ void editorProcessKeypress() {
     case '\r':
       editorInsertNewline();
       break;
-   case CTRL_KEY('q'):
-      if (E.dirty && quit_times > 0) {
-        editorSetStatusMessage("WARNING!!! File has unsaved changes. "
-          "Press Ctrl-Q %d more times to quit.", quit_times);
-        quit_times--;
-        return;
-      }
-      write(STDOUT_FILENO, "\x1b[2J", 4);
-      write(STDOUT_FILENO, "\x1b[H", 3);
-      exit(0);
-      break;
     case CTRL_KEY('s'):
       editorSave();
       break;
@@ -1011,7 +1000,7 @@ int main(int argc, char *argv[]) { // arquivo é passado como argumento na main 
 
 
 editorSetStatusMessage(
-    "HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find");
+    "AJUDA: Ctrl-S = salvar | Ctrl-F = procurar palavra");
 
  while (1) {
     editorRefreshScreen();
