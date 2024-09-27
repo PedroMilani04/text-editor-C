@@ -21,3 +21,4 @@ This project is a simple, lightweight text editor developed in **C** for a unive
 The Kilo Text Editor is a 1000-line text editor created by Salvatore Sanfilippo (also known for creating Redis) as a demonstration of how to build a simple text editor from scratch using minimal code. Like Kilo, this editor is designed to be lightweight and easy to understand, making it a great learning tool for understanding terminal I/O, text buffers, and handling user input.
 
 - https://github.com/antirez/kilo <br>
+- https://viewsourcecode.org/snaptoken/kilo/
